@@ -5,5 +5,11 @@ export const PublicRoutes = {
 export const PrivateRoutes = {
     PRIVATE: 'app',
     DASHBOARD: 'Dashboard',
-    HOME: 'Home'
+    HOME: 'Home',
+    ROOMS: 'rooms'
 };
+
+export const RoomsRoutes = {
+    INDEX: '',
+    CREATE: 'create'
+}

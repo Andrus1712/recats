@@ -1,7 +1,7 @@
 export interface Iuser {
     message: string,
     _token: string,
-    data: IdataUser
+    data?: IdataUser | null
 }
 
 export interface IdataUser {

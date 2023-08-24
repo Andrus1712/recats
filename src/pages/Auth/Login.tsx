@@ -34,13 +34,11 @@ function Login() {
             .unwrap()
             .then(() => {
                 setLoading(false);
-                navigate(`/${PrivateRoutes.PRIVATE}`, { replace: true });
+                navigate(`/${PrivateRoutes.PRIVATE}`, { replace: true })
             })
             .catch(() => {
                 setLoading(false);
             });
-
-
     }
 
     return (<>
@@ -50,7 +48,7 @@ function Login() {
                 <label className="font-semibold text-xs" htmlFor="usernameField">Username or Email</label>
                 <input value={username} onChange={(e) => setUsername(e.target.value)} className="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" type="text" name='username' />
                 <label className="font-semibold text-xs mt-3" htmlFor="passwordField">Password</label>
-                <input value={password} onChange={(e) => setPassword(e.target.value)} className="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" type="password" name='password' />
+                <input value={password} onChange={(e) => setPassword(e.target.value)} className="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2" type="password" name='password' autoComplete="true" />
                 <button className="disabled:bg-blue-400 disabled:text-blue-200 flex items-center justify-center h-12 px-6 w-64 bg-blue-600 mt-8 rounded font-semibold text-sm text-blue-100 hover:bg-blue-700" disabled={loading} type='submit'>Login</button>
                 <div className="flex mt-6 justify-center text-xs">
                     <a className="text-blue-400 hover:text-blue-500" href="#">Forgot Password</a>

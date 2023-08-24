@@ -16,11 +16,17 @@ const initialState: IauthState = {};
 
 export const login = createAsyncThunk(
     "auth/login",
-    async (data: Ilogin, thunkAPI) => {
+    async (dataLogin: Ilogin, thunkAPI) => {
         try {
-            const response: Iuser = await AuthService.loginService(data);
-            thunkAPI.dispatch(messageSlice.actions.setMessage(response.message))
-            return { userResponse: response };
+            const res = await AuthService.loginService(dataLogin);
+            const { message } = res?.data;
+            const data: Iuser = res?.data;
+            thunkAPI.dispatch(messageSlice.actions.setMessage(message))
+            if (res?.status == 200) {
+                return { userResponse: data };
+            } else {
+                return thunkAPI.rejectWithValue(message);
+            }
         } catch (error: object | any) {
             const message =
                 (error.response &&
@@ -28,10 +34,11 @@ export const login = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            console.log(message);
+            thunkAPI.dispatch(messageSlice.actions.setMessage(message))
         }
     }
 );
+
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     await AuthService.logout();
     thunkAPI.dispatch(messageSlice.actions.clearMessage());
