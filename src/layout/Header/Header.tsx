@@ -1,25 +1,25 @@
-import { AplicationContext } from "@/context";
-import { useAppSelector } from "@/hooks";
+import { AplicationContext } from '@/context';
+import { useAppSelector } from '@/hooks';
 import { useContext } from 'react';
-import { MdMenu } from "react-icons/md";
+import { MdMenu } from 'react-icons/md';
 
 const Header = () => {
-
-    const { userInfo } = useAppSelector((state) => state.auth);
+    const { _token } = useAppSelector((state) => state.auth);
     const { toggleMenu } = useContext(AplicationContext);
 
-
     return (
-        <div className='drop-shadow-md z-20'>
+        <div className="drop-shadow-md z-20">
             <div className="flex flex-row justify-between h-full">
                 <div className="m-2">
-                    <button onClick={toggleMenu} className='my-1 mx-auto rounded-full p-2 hover:bg-indigo-950'><MdMenu /></button>
+                    <button onClick={toggleMenu} className="my-1 mx-auto rounded-full p-2 hover:bg-indigo-950">
+                        <MdMenu />
+                    </button>
                 </div>
                 <div className="my-auto">
-                    <h2 className='text-md font-semibold p-2'>Header</h2>
+                    <h2 className="text-md font-semibold p-2">Header</h2>
                 </div>
                 <div className="flex flex-row justify-end flex-1">
-                    {userInfo && (
+                    {_token && (
                         <a href="/login" className="text-md font-semibold p-2">
                             LogOut
                         </a>
@@ -27,6 +27,6 @@ const Header = () => {
                 </div>
             </div>
         </div>
-    )
-}
-export default Header
+    );
+};
+export default Header;

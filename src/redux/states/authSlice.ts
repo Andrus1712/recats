@@ -1,9 +1,8 @@
-import { IauthState, Ilogin, Iuser } from "@/models";
-import AuthService from "@/services";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { messageSlice } from "./messageSlice";
-
+import { IauthState, Ilogin, Iuser } from '@/models';
+import AuthService from '@/services';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../store';
+import { messageSlice } from './messageSlice';
 
 const initialState: IauthState = {};
 
@@ -14,46 +13,38 @@ const initialState: IauthState = {};
 //     !isTokenExpired(token) && (initialState._token = token);
 // }
 
-export const login = createAsyncThunk(
-    "auth/login",
-    async (dataLogin: Ilogin, thunkAPI) => {
-        try {
-            const res = await AuthService.loginService(dataLogin);
-            const { message } = res?.data;
-            const data: Iuser = res?.data;
-            thunkAPI.dispatch(messageSlice.actions.setMessage(message))
-            if (res?.status == 200) {
-                return { userResponse: data };
-            } else {
-                return thunkAPI.rejectWithValue(message);
-            }
-        } catch (error: object | any) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            thunkAPI.dispatch(messageSlice.actions.setMessage(message))
+export const login = createAsyncThunk('auth/login', async (dataLogin: Ilogin, thunkAPI) => {
+    try {
+        const res = await AuthService.loginService(dataLogin);
+        const data: Iuser = res?.data;
+        thunkAPI.dispatch(messageSlice.actions.setMessage(data.message));
+        if (res?.status == 200) {
+            return { userResponse: data };
+        } else {
+            return thunkAPI.rejectWithValue(data.message);
         }
+    } catch (error: object | any) {
+        const message =
+            (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
+        thunkAPI.dispatch(messageSlice.actions.setMessage(message));
     }
-);
+});
 
-export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     await AuthService.logout();
     thunkAPI.dispatch(messageSlice.actions.clearMessage());
 });
 
 export const authSlice = createSlice({
-    name: "auth",
+    name: 'auth',
     initialState: initialState,
     reducers: {},
-    extraReducers: builder => {
+    extraReducers: (builder) => {
         // Login
         builder
             .addCase(login.pending, (state) => {
                 state.isLoanding = true;
-                state._token = "";
+                state._token = '';
                 state.userInfo = initialState.userInfo;
             })
             .addCase(login.fulfilled, (state, action) => {
@@ -63,17 +54,16 @@ export const authSlice = createSlice({
             })
             .addCase(login.rejected, (state) => {
                 state.isLoanding = false;
-                state._token = "";
+                state._token = '';
                 state.userInfo = initialState.userInfo;
-            })
-        // logout 
-        builder
-            .addCase(logout.fulfilled, (state) => {
-                state.isLoanding = false;
-                state._token = "";
-                state.userInfo = initialState.userInfo;
-            })
-    }
+            });
+        // logout
+        builder.addCase(logout.fulfilled, (state) => {
+            state.isLoanding = false;
+            state._token = '';
+            state.userInfo = initialState.userInfo;
+        });
+    },
 });
 
 export const authSelector = (state: RootState) => state.auth;

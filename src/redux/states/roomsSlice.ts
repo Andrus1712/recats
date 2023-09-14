@@ -1,4 +1,4 @@
-import { IRooms, IRoomsRequestModel } from '@/models/rooms.model';
+import { IRoomsRequestModel } from '@/models/rooms.model';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RoomsService } from '@/services';
 import { RootState } from '../store';

@@ -2,7 +2,7 @@ export interface IRooms {
     id: string;
     code: string;
     door: string;
-    foorl: string;
+    floor: string;
     description: string;
 }
 
